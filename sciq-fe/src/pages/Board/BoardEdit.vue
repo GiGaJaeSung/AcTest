@@ -197,24 +197,28 @@ onMounted(() => {
 
 .button-group {
   display: flex;
-  gap: 1rem;
+  gap: 12px;
 }
 
-.cancel-button,
-.submit-button {
+.button-group button {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
+  gap: 4px;
+  padding: 8px 16px;
   border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .cancel-button {
-  background-color: #6c757d;
-  color: white;
+  background-color: #f0f0f0;
+  color: #666;
+}
+
+.cancel-button:hover {
+  background-color: #e0e0e0;
 }
 
 .submit-button {
@@ -222,16 +226,8 @@ onMounted(() => {
   color: white;
 }
 
-.cancel-button:hover {
-  background-color: #5a6268;
-}
-
 .submit-button:hover {
   background-color: #0056b3;
-}
-
-.material-icons {
-  font-size: 1.1rem;
 }
 
 .form-group {

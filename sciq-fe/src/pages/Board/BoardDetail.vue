@@ -628,33 +628,46 @@ onMounted(() => {
 
 .button-group {
   display: flex;
-  gap: 0.5rem;
+  gap: 8px;
 }
 
-.edit-button, .save-button, .cancel-button {
+.button-group button {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
-  padding: 0.5rem 0.75rem;
-  border-radius: 4px;
-  font-size: 0.875rem;
-  cursor: pointer;
+  gap: 4px;
+  padding: 8px 16px;
   border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .edit-button {
-  background: #1a73e8;
+  background-color: #007bff;
   color: white;
+}
+
+.edit-button:hover {
+  background-color: #0056b3;
 }
 
 .save-button {
-  background: #28a745;
+  background-color: #28a745;
   color: white;
 }
 
+.save-button:hover {
+  background-color: #218838;
+}
+
 .cancel-button {
-  background: #6c757d;
-  color: white;
+  background-color: #f0f0f0;
+  color: #666;
+}
+
+.cancel-button:hover {
+  background-color: #e0e0e0;
 }
 
 .post-info {
