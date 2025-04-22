@@ -316,14 +316,16 @@ const handleLike = async () => {
 };
 
 const formatDate = (dateString: string) => {
-  const date = new Date(dateString)
+  const date = new Date(dateString);
+  
   return date.toLocaleDateString('ko-KR', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
     hour: '2-digit',
-    minute: '2-digit'
-  })
+    minute: '2-digit',
+    hour12: true // 12시간 형식 사용
+  }).replace('AM', '오전').replace('PM', '오후');
 }
 
 const formatDiscipline = (discipline: ScienceDisciplineType) => {
