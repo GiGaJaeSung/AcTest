@@ -316,16 +316,23 @@ const handleLike = async () => {
 };
 
 const formatDate = (dateString: string) => {
+  // 스톡홀름(UTC+1)에서 한국(UTC+9)으로 변환 (8시간 차이)
   const date = new Date(dateString);
+  const stockholmToKoreaTime = new Date(date.getTime() + (8 * 60 * 60 * 1000));
   
-  return date.toLocaleDateString('ko-KR', {
+  const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
     hour: '2-digit',
     minute: '2-digit',
-    hour12: true // 12시간 형식 사용
-  }).replace('AM', '오전').replace('PM', '오후');
+    hour12: true
+  };
+  
+  return new Intl.DateTimeFormat('ko-KR', options)
+    .format(stockholmToKoreaTime)
+    .replace('AM', '오전')
+    .replace('PM', '오후');
 }
 
 const formatDiscipline = (discipline: ScienceDisciplineType) => {
