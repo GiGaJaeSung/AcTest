@@ -316,9 +316,9 @@ const handleLike = async () => {
 };
 
 const formatDate = (dateString: string) => {
-  // 스톡홀름(UTC+2)에서 한국(UTC+9)으로 변환 (7시간 차이)
+  // 스톡홀름(UTC+2)에서 한국(UTC+9)으로 변환 (9시간 차이)
   const date = new Date(dateString);
-  const stockholmToKoreaTime = new Date(date.getTime() + (7 * 60 * 60 * 1000));
+  const stockholmToKoreaTime = new Date(date.getTime() + (9 * 60 * 60 * 1000));
   
   const options: Intl.DateTimeFormatOptions = {
     year: 'numeric',
