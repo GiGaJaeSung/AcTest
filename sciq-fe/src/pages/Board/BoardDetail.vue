@@ -23,14 +23,16 @@
               <span class="material-icons">edit</span>
               수정
             </button>
-            <button v-else class="save-button" @click="saveEdit">
-              <span class="material-icons">save</span>
-              저장
-            </button>
-            <button v-else class="cancel-button" @click="cancelEdit">
-              <span class="material-icons">cancel</span>
-              취소
-            </button>
+            <template v-else>
+              <button class="save-button" @click="saveEdit">
+                <span class="material-icons">save</span>
+                저장
+              </button>
+              <button class="cancel-button" @click="cancelEdit">
+                <span class="material-icons">cancel</span>
+                취소
+              </button>
+            </template>
           </div>
         </div>
         
