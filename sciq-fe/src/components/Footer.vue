@@ -8,8 +8,7 @@
       </div>
       <div class="footer-section">
         <h3>Contact</h3>
-        <p>Email: contact@example.com</p>
-        <p>Phone: (123) 456-7890</p>
+        <p>Email: gulddaggi@gmail.com</p>
       </div>
     </div>
     <div class="footer-bottom">
