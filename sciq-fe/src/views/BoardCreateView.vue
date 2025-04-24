@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { postService } from '@/api/postService'
+import RichTextEditor from '@/components/editor/RichTextEditor.vue'
 
 const router = useRouter()
 const title = ref('')
@@ -59,8 +60,8 @@ const validateForm = () => {
   }
 
   // 내용 유효성 검사 (1000자 제한)
-  if (contentLength > 1000) {
-    contentError.value = '내용은 1000자 이하로 입력해주세요.'
+  if (!content.value.trim()) {
+    contentError.value = '내용을 입력해주세요.'
     isValid = false
   } else {
     contentError.value = ''
@@ -139,16 +140,9 @@ const handleCancel = () => {
     </div>
 
     <div class="form-group">
-      <textarea 
-        v-model="content" 
-        @input="checkContentLength"
-        placeholder="내용을 입력하세요"
-        class="content-input"
-        :class="{ 'error': contentError }"
-      ></textarea>
+      <RichTextEditor v-model="content" placeholder="내용을 입력하세요" />
       <div class="char-count">
         <div class="count-info">
-          <span>{{ content.length }}/1000</span>
           <span v-if="contentError" class="error-message">{{ contentError }}</span>
         </div>
       </div>
