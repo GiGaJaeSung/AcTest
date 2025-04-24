@@ -55,9 +55,13 @@
         </div>
       </div>
 
-      <div class="content" v-if="!isEditing" v-html="formatContentWithLinks(question.content)"></div>
+      <div class="content" v-if="!isEditing" v-html="question.content"></div>
       <div v-else class="edit-form">
-        <RichTextEditor v-model="editContent" placeholder="내용을 입력하세요" />
+        <textarea
+          v-model="editContent"
+          class="edit-content"
+          placeholder="내용을 입력하세요"
+        ></textarea>
         <div class="char-count">{{ editContent.length }}/1000</div>
       </div>
 
@@ -151,7 +155,6 @@ import { questionService } from '@/api/questionService'
 import { authService } from '@/api/authService'
 import type { Question, Comment, CommentCreateRequest, CommentUpdateRequest } from '@/types/board'
 import { ScienceDisciplineType } from '@/types/board'
-import RichTextEditor from '@/components/editor/RichTextEditor.vue'
 
 const router = useRouter()
 const route = useRoute()
@@ -569,19 +572,6 @@ const deleteComment = async (commentId: number) => {
     }
   }
 }
-
-// URL을 자동으로 하이퍼링크로 변환하는 함수
-const formatContentWithLinks = (content: string) => {
-  if (!content) return '';
-  
-  // URL 패턴 정규식
-  const urlRegex = /(https?:\/\/[^\s]+)/g;
-  
-  // URL을 하이퍼링크 태그로 변환
-  return content.replace(urlRegex, (url) => {
-    return `<a href="${url}" target="_blank" rel="noopener noreferrer">${url}</a>`;
-  });
-};
 
 onMounted(() => {
   fetchQuestion()
