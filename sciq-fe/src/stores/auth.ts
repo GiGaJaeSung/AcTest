@@ -13,7 +13,6 @@ export interface User {
   prefer: string
   points: number
   level: number
-  role?: string
 }
 
 export const useAuthStore = defineStore('auth', () => {

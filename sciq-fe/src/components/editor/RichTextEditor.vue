@@ -2,13 +2,6 @@
 import { ref, onMounted, watch, defineEmits, defineProps } from 'vue';
 import 'quill/dist/quill.snow.css';
 
-interface QuillEditor {
-  root: {
-    innerHTML: string;
-  };
-  on: (event: string, callback: Function) => void;
-}
-
 const props = defineProps({
   modelValue: {
     type: String,
@@ -23,52 +16,45 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue']);
 
 const editorContainer = ref<HTMLElement | null>(null);
-let quill: QuillEditor | null = null;
+let quill: any = null;
 
 onMounted(async () => {
   if (typeof window !== 'undefined' && editorContainer.value) {
-    try {
-      // 타입 선언 문제를 해결하기 위한 동적 임포트 방식
-      const Quill = (await import('quill')).default;
-      
-      // 에디터 초기화
-      quill = new Quill(editorContainer.value, {
-        theme: 'snow',
-        placeholder: props.placeholder,
-        modules: {
-          toolbar: [
-            ['bold', 'italic', 'underline', 'strike'],
-            ['blockquote', 'code-block'],
-            [{ 'header': 1 }, { 'header': 2 }],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            [{ 'script': 'sub' }, { 'script': 'super' }],
-            [{ 'indent': '-1' }, { 'indent': '+1' }],
-            [{ 'direction': 'rtl' }],
-            [{ 'size': ['small', false, 'large', 'huge'] }],
-            [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-            [{ 'color': [] }, { 'background': [] }],
-            [{ 'font': [] }],
-            [{ 'align': [] }],
-            ['clean'],
-            ['link', 'image']
-          ]
-        }
-      }) as QuillEditor;
-
-      // 초기값 설정
-      if (props.modelValue) {
-        quill.root.innerHTML = props.modelValue;
+    const Quill = (await import('quill')).default;
+    
+    // 에디터 초기화
+    quill = new Quill(editorContainer.value, {
+      theme: 'snow',
+      placeholder: props.placeholder,
+      modules: {
+        toolbar: [
+          ['bold', 'italic', 'underline', 'strike'],
+          ['blockquote', 'code-block'],
+          [{ 'header': 1 }, { 'header': 2 }],
+          [{ 'list': 'ordered' }, { 'list': 'bullet' }],
+          [{ 'script': 'sub' }, { 'script': 'super' }],
+          [{ 'indent': '-1' }, { 'indent': '+1' }],
+          [{ 'direction': 'rtl' }],
+          [{ 'size': ['small', false, 'large', 'huge'] }],
+          [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+          [{ 'color': [] }, { 'background': [] }],
+          [{ 'font': [] }],
+          [{ 'align': [] }],
+          ['clean'],
+          ['link', 'image']
+        ]
       }
+    });
 
-      // 에디터 변경 이벤트 감시
-      quill.on('text-change', () => {
-        if (quill) {
-          emit('update:modelValue', quill.root.innerHTML);
-        }
-      });
-    } catch (error) {
-      console.error('Quill 에디터 로딩 실패:', error);
+    // 초기값 설정
+    if (props.modelValue) {
+      quill.root.innerHTML = props.modelValue;
     }
+
+    // 에디터 변경 이벤트 감시
+    quill.on('text-change', () => {
+      emit('update:modelValue', quill.root.innerHTML);
+    });
   }
 });
 

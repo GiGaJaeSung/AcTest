@@ -43,8 +43,7 @@ export interface PostResponse {
 export interface PostRequest {
   title: string
   content: string
-  category?: string
-  scienceDiscipline?: string
+  category: string
 }
 
 export const postService = {
