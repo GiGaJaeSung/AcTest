@@ -6,6 +6,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   
   return {
+    base: '/',
     plugins: [vue()],
     resolve: {
       alias: {
@@ -24,6 +25,12 @@ export default defineConfig(({ mode }) => {
     },
     build: {
       sourcemap: true,
+      assetsDir: 'assets',
+      rollupOptions: {
+        output: {
+          manualChunks: undefined
+        }
+      }
     },
     define: {
       'process.env': env,
