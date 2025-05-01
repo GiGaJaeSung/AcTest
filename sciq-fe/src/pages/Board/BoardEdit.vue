@@ -114,7 +114,7 @@ const fetchPost = async () => {
       form.scienceDiscipline = data.scienceDiscipline
     }
   } catch (error) {
-    console.error('질문 조회 실패:', error)
+    // console.error('질문 조회 실패:', error)
     router.push('/board')
   }
 }
@@ -154,14 +154,9 @@ const handleSubmit = async () => {
     if (success) {
       router.push(`/board/${route.params.id}`)
     }
-  } catch (error: any) {
-    console.error('질문 수정 실패:', error)
-    if (error.response?.status === 403) {
-      alert('질문을 수정할 권한이 없습니다.')
-      router.push(`/board/${route.params.id}`)
-    } else {
-      alert(error.response?.data?.message || '질문 수정에 실패했습니다.')
-    }
+  } catch (error) {
+    // console.error('질문 수정 실패:', error)
+    alert('게시글 수정에 실패했습니다.')
   }
 }
 

@@ -33,8 +33,7 @@ const fetchPost = async () => {
     const response = await postService.getPost(Number(route.params.id))
     post.value = response.data
   } catch (error) {
-    console.error('게시글 조회 실패:', error)
-    alert('게시글을 불러오는데 실패했습니다.')
+    // console.error('게시글 조회 실패:', error)
     router.push('/board')
   } finally {
     isLoading.value = false
@@ -56,7 +55,7 @@ const handleSubmit = async () => {
     })
     router.push(`/board/${route.params.id}`)
   } catch (error) {
-    console.error('게시글 수정 실패:', error)
+    // console.error('게시글 수정 실패:', error)
     alert('게시글 수정에 실패했습니다.')
   } finally {
     isSaving.value = false

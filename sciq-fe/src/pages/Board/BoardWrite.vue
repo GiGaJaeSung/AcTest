@@ -139,9 +139,9 @@ const handleSubmit = async () => {
     if (success) {
       router.push(`/board/${data.id}`)
     }
-  } catch (error: any) {
-    console.error('질문 작성 실패:', error)
-    alert(error.response?.data?.message || '질문 작성에 실패했습니다.')
+  } catch (error) {
+    // console.error('질문 작성 실패:', error)
+    alert('게시글 작성에 실패했습니다.')
   }
 }
 

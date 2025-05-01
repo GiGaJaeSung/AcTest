@@ -14,8 +14,8 @@ const fetchPosts = async () => {
   try {
     posts.value = await postService.getPosts()
   } catch (e) {
-    error.value = '게시글을 불러오는데 실패했습니다.'
-    console.error('Error fetching posts:', e)
+    // console.error('Error fetching posts:', e)
+    posts.value = []
   } finally {
     loading.value = false
   }

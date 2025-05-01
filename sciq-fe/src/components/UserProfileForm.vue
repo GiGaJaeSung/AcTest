@@ -38,41 +38,32 @@ const error = ref('');
 
 const loadUserInfo = async () => {
   try {
-    loading.value = true;
-    error.value = '';
-    console.log('사용자 정보 로딩 시작');
-    
+    // console.log('사용자 정보 로딩 시작');
     const userInfo = await getUserInfo();
-    console.log('사용자 정보 로딩 완료:', userInfo);
-    
     profile.value = {
       name: userInfo.name,
       gender: userInfo.gender,
     };
+    // console.log('사용자 정보 로딩 완료:', userInfo);
   } catch (err) {
-    console.error('사용자 정보 로딩 실패:', err);
-    error.value = '사용자 정보를 불러오는데 실패했습니다.';
-  } finally {
-    loading.value = false;
+    // console.error('사용자 정보 로딩 실패:', err);
+    alert('사용자 정보를 불러오는데 실패했습니다.');
   }
 };
 
 const handleSubmit = async () => {
   try {
-    loading.value = true;
-    error.value = '';
     await updateUserInfo(profile.value);
-    console.log('프로필 업데이트 성공');
+    // console.log('프로필 업데이트 성공');
+    emit('update-success');
   } catch (err) {
-    console.error('프로필 업데이트 실패:', err);
-    error.value = '프로필 업데이트에 실패했습니다.';
-  } finally {
-    loading.value = false;
+    // console.error('프로필 업데이트 실패:', err);
+    alert('프로필 업데이트에 실패했습니다.');
   }
 };
 
 onMounted(() => {
-  console.log('UserProfileForm 마운트됨');
+  // console.log('UserProfileForm 마운트됨');
   loadUserInfo();
 });
 </script>

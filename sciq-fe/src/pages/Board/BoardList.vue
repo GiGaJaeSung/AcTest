@@ -120,9 +120,9 @@ const fetchQuestions = async () => {
     const { response: data } = response.data
     questions.value = data.content
     totalPages.value = data.totalPages
-  } catch (err: any) {
-    console.error('질문 목록 조회 실패:', err)
-    error.value = '질문 목록을 불러오는데 실패했습니다.'
+  } catch (err) {
+    // console.error('질문 목록 조회 실패:', err)
+    questions.value = []
   } finally {
     loading.value = false
   }
