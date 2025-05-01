@@ -99,7 +99,7 @@ const fetchQuestions = async () => {
   try {
     // 전체 게시글을 한 번만 호출
     const response = await questionService.getAllQuestions()
-    console.log('전체 게시글 응답:', response)
+    // console.log('전체 게시글 응답:', response)
     const allQuestions = response.data || []
 
     // 인기 게시글 (추천수 기준으로 정렬)
@@ -112,7 +112,7 @@ const fetchQuestions = async () => {
       .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       .slice(0, 3)
   } catch (error) {
-    console.error('게시글 로딩 실패:', error)
+    // console.error('게시글 로딩 실패:', error)
     popularQuestions.value = []
     recentQuestions.value = []
   }
