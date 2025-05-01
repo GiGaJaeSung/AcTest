@@ -33,17 +33,17 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const setToken = (tokenData: TokenDto) => {
-    console.log('setToken 호출, 토큰 데이터:', tokenData);
+    // console.log('setToken 호출, 토큰 데이터:', tokenData);
     token.value = tokenData.accessToken
     isAuthenticated.value = true
     localStorage.setItem('accessToken', tokenData.accessToken)
     localStorage.setItem('refreshToken', tokenData.refreshToken)
     localStorage.setItem('tokenExpiresIn', tokenData.accessTokenExpiresIn.toString())
-    console.log('로컬 스토리지에 저장된 토큰:', {
-      accessToken: localStorage.getItem('accessToken'),
-      refreshToken: localStorage.getItem('refreshToken'),
-      expiresIn: localStorage.getItem('tokenExpiresIn')
-    });
+    // console.log('로컬 스토리지에 저장된 토큰:', {
+    //   accessToken: localStorage.getItem('accessToken'),
+    //   refreshToken: localStorage.getItem('refreshToken'),
+    //   expiresIn: localStorage.getItem('tokenExpiresIn')
+    // });
   }
 
   const setError = (message: string) => {
@@ -72,23 +72,23 @@ export const useAuthStore = defineStore('auth', () => {
         throw new Error('Failed to fetch user data');
       }
     } catch (error) {
-      console.error('Failed to fetch user info:', error);
+      // console.error('Failed to fetch user info:', error);
       throw error;
     }
   }
 
   const login = async (credentials: LoginRequest) => {
-    console.log('store login 시작, 로그인 데이터:', credentials);
+    // console.log('store login 시작, 로그인 데이터:', credentials);
     isLoading.value = true
     error.value = null
     try {
       const tokenData = await apiLogin(credentials)
-      console.log('API에서 받은 토큰 데이터:', tokenData);
+      // console.log('API에서 받은 토큰 데이터:', tokenData);
       setToken(tokenData)
       await getCurrentUser()
       return tokenData
     } catch (error) {
-      console.error('로그인 에러:', error);
+      // console.error('로그인 에러:', error);
       setError('로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.')
       throw error
     } finally {
@@ -97,17 +97,17 @@ export const useAuthStore = defineStore('auth', () => {
   }
 
   const register = async (userData: RegisterRequest) => {
-    console.log('store register 시작, 사용자 데이터:', userData);
+    // console.log('store register 시작, 사용자 데이터:', userData);
     isLoading.value = true
     error.value = null
     try {
       const tokenData = await apiRegister(userData)
-      console.log('API에서 받은 토큰 데이터:', tokenData);
+      // console.log('API에서 받은 토큰 데이터:', tokenData);
       setToken(tokenData)
       await getCurrentUser()
       return tokenData
     } catch (error) {
-      console.error('회원가입 에러:', error);
+      // console.error('회원가입 에러:', error);
       setError('회원가입에 실패했습니다. 다시 시도해주세요.ㅋㅋ')
       throw error
     } finally {

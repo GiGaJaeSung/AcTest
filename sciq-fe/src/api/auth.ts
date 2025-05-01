@@ -49,18 +49,18 @@ instance.interceptors.request.use(
     const token = localStorage.getItem('accessToken');
     if (token) {
       config.headers['Authorization'] = `Bearer ${token}`;
-      console.log('Adding auth header:', config.headers['Authorization']);
+      // console.log('Adding auth header:', config.headers['Authorization']);
     }
-    console.log('Request config:', {
-      url: config.url,
-      method: config.method,
-      headers: config.headers,
-      baseURL: config.baseURL
-    });
+    // console.log('Request config:', {
+    //   url: config.url,
+    //   method: config.method,
+    //   headers: config.headers,
+    //   baseURL: config.baseURL
+    // });
     return config;
   },
   (error) => {
-    console.error('Request interceptor error:', error);
+    // console.error('Request interceptor error:', error);
     return Promise.reject(error);
   }
 );
@@ -68,15 +68,15 @@ instance.interceptors.request.use(
 // Response interceptor to handle token refresh
 instance.interceptors.response.use(
   (response) => {
-    console.log('Response:', {
-      status: response.status,
-      url: response.config.url,
-      data: response.data
-    });
+    // console.log('Response:', {
+    //   status: response.status,
+    //   url: response.config.url,
+    //   data: response.data
+    // });
     return response;
   },
   async (error) => {
-    console.error('Response error:', error.response || error);
+    // console.error('Response error:', error.response || error);
     const originalRequest = error.config;
     
     if (error.response?.status === 401 && !originalRequest._retry) {
@@ -85,7 +85,7 @@ instance.interceptors.response.use(
       try {
         const refreshToken = localStorage.getItem('refreshToken');
         if (refreshToken) {
-          console.log('Attempting token refresh');
+          // console.log('Attempting token refresh');
           const newToken = await reissue(refreshToken);
           localStorage.setItem('accessToken', newToken.accessToken);
           localStorage.setItem('refreshToken', newToken.refreshToken);
@@ -94,7 +94,7 @@ instance.interceptors.response.use(
           return instance(originalRequest);
         }
       } catch (refreshError) {
-        console.error('Token refresh failed:', refreshError);
+        // console.error('Token refresh failed:', refreshError);
         localStorage.removeItem('accessToken');
         localStorage.removeItem('refreshToken');
         window.location.href = '/login';
@@ -119,9 +119,9 @@ export const login = async (data: { email: string; password: string }) => {
 };
 
 export const register = async (data: RegisterRequest) => {
-  console.log('API 요청 데이터:', data);
+  // console.log('API 요청 데이터:', data);
   const response = await instance.post<ApiResponse<TokenDto>>('/auth/signup', data);
-  console.log('API 응답:', response.data);
+  // console.log('API 응답:', response.data);
   return response.data.data;
 };
 

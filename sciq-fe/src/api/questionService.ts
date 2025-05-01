@@ -17,7 +17,7 @@ export const questionService = {
       const response = await axios.get<ApiResponse<Question>>(`/v1/questions/${id}`);
       return response.data;
     } catch (error) {
-      console.error('질문 상세 조회 실패:', error);
+      // console.error('질문 상세 조회 실패:', error);
       throw error;
     }
   },
@@ -28,7 +28,7 @@ export const questionService = {
       const response = await axios.get<ApiResponse<Question[]>>('/v1/questions');
       return response.data;
     } catch (error) {
-      console.error('질문 목록 조회 실패:', error);
+      // console.error('질문 목록 조회 실패:', error);
       throw error;
     }
   },
@@ -45,7 +45,7 @@ export const questionService = {
       });
       return response.data.data;
     } catch (error) {
-      console.error('인기 게시글 조회 실패:', error);
+      // console.error('인기 게시글 조회 실패:', error);
       return [];
     }
   },
@@ -62,7 +62,7 @@ export const questionService = {
       });
       return response.data.data;
     } catch (error) {
-      console.error('최신 게시글 조회 실패:', error);
+      // console.error('최신 게시글 조회 실패:', error);
       return [];
     }
   },
@@ -73,7 +73,7 @@ export const questionService = {
       const response = await axios.get<ApiResponse<Comment[]>>(`/v1/questions/${questionId}/comments`);
       return response.data;
     } catch (error) {
-      console.error('댓글 조회 실패:', error);
+      // console.error('댓글 조회 실패:', error);
       throw error;
     }
   },
@@ -87,7 +87,7 @@ export const questionService = {
       );
       return response.data;
     } catch (error) {
-      console.error('댓글 작성 실패:', error);
+      // console.error('댓글 작성 실패:', error);
       throw error;
     }
   },
@@ -101,7 +101,7 @@ export const questionService = {
       );
       return response.data;
     } catch (error) {
-      console.error('댓글 수정 실패:', error);
+      // console.error('댓글 수정 실패:', error);
       throw error;
     }
   },
@@ -112,7 +112,7 @@ export const questionService = {
       const response = await axios.delete<ApiResponse<null>>(`/v1/questions/${questionId}/comments/${commentId}`);
       return response.data;
     } catch (error) {
-      console.error('댓글 삭제 실패:', error);
+      // console.error('댓글 삭제 실패:', error);
       throw error;
     }
   },
@@ -123,7 +123,7 @@ export const questionService = {
       const response = await axios.post<ApiResponse<string>>(`/v1/questions/${questionId}/recommend`);
       return response.data;
     } catch (error) {
-      console.error('게시글 추천 실패:', error);
+      // console.error('게시글 추천 실패:', error);
       throw error;
     }
   },
@@ -134,7 +134,7 @@ export const questionService = {
       const response = await axios.delete<ApiResponse<void>>(`/v1/questions/${questionId}/recommend`);
       return response.data;
     } catch (error) {
-      console.error('추천 취소 실패:', error);
+      // console.error('추천 취소 실패:', error);
       return { success: false, data: undefined, message: '추천 취소에 실패했습니다.' };
     }
   },
@@ -145,7 +145,7 @@ export const questionService = {
       const response = await axios.get<ApiResponse<boolean>>(`/v1/questions/${questionId}/recommend/status`);
       return response.data;
     } catch (error) {
-      console.error('추천 상태 확인 실패:', error);
+      // console.error('추천 상태 확인 실패:', error);
       return { success: false, data: false, message: '추천 상태 확인에 실패했습니다.' };
     }
   },
@@ -156,7 +156,7 @@ export const questionService = {
       const response = await axios.delete<ApiResponse<null>>(`/v1/questions/${questionId}`);
       return response.data;
     } catch (error) {
-      console.error('게시글 삭제 실패:', error);
+      // console.error('게시글 삭제 실패:', error);
       throw error;
     }
   },
@@ -167,7 +167,7 @@ export const questionService = {
       const response = await axios.put<ApiResponse<Question>>(`/v1/questions/${id}`, data);
       return response.data;
     } catch (error) {
-      console.error('게시글 수정 실패:', error);
+      // console.error('게시글 수정 실패:', error);
       throw error;
     }
   },
@@ -176,10 +176,10 @@ export const questionService = {
   async getRecommendedQuestionsByUser() {
     try {
       const response = await axios.get<ApiResponse<Question[]>>('/v1/mypage/recommended-questions');
-      console.log('좋아요한 게시글 응답:', response.data);
+      // console.log('좋아요한 게시글 응답:', response.data);
       return response.data.data || [];
     } catch (error) {
-      console.error('좋아요한 게시글 조회 실패:', error);
+      // console.error('좋아요한 게시글 조회 실패:', error);
       return [];
     }
   }

@@ -62,10 +62,10 @@ export const authService = {
   async login(credentials: LoginRequest) {
     try {
       const response = await axios.post<TokenResponse>('/auth/login', credentials);
-      console.log('로그인 응답:', response.data);
+      // console.log('로그인 응답:', response.data);
       
       const token = response.data.response.accessToken;
-      console.log('추출된 토큰:', token);
+      // console.log('추출된 토큰:', token);
       
       if (token) {
         localStorage.setItem('accessToken', token);
@@ -73,7 +73,7 @@ export const authService = {
       
       return response.data;
     } catch (error) {
-      console.error('로그인 실패:', error);
+      // console.error('로그인 실패:', error);
       throw error;
     }
   },
@@ -81,21 +81,21 @@ export const authService = {
   async register(data: RegisterRequest) {
     try {
       const response = await axios.post<TokenResponse>('/auth/signup', data);
-      console.log('회원가입 응답:', response.data);
+      // console.log('회원가입 응답:', response.data);
 
       if (response.data && response.data.response) {
         const { accessToken } = response.data.response;
-        console.log('저장할 토큰:', accessToken);
+        // console.log('저장할 토큰:', accessToken);
         if (accessToken) {
           localStorage.setItem('accessToken', accessToken);
         }
       } else {
-        console.error('응답 데이터에 accessToken이 없습니다.');
+        // console.error('응답 데이터에 accessToken이 없습니다.');
       }
 
       return response.data;
     } catch (error) {
-      console.error('회원가입 실패:', error);
+      // console.error('회원가입 실패:', error);
       throw error;
     }
   },
@@ -108,7 +108,7 @@ export const authService = {
           accessToken: token
         });
       } catch (error) {
-        console.error('로그아웃 실패:', error);
+        // console.error('로그아웃 실패:', error);
       }
     }
     localStorage.removeItem('accessToken');
@@ -117,7 +117,7 @@ export const authService = {
 
   async getCurrentUser() {
     const token = localStorage.getItem('accessToken');
-    console.log('사용할 토큰:', token);
+    // console.log('사용할 토큰:', token);
     if (!token) {
       throw new Error('No token found');
     }

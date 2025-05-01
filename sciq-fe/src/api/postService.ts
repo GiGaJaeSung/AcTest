@@ -57,17 +57,17 @@ export const postService = {
           size: 10
         }
       })
-      console.log('API 응답:', res.data)
+      // console.log('API 응답:', res.data)
       
       if (res.data && Array.isArray(res.data.data)) {
         // 배열을 역순으로 정렬
         return res.data.data.reverse()
       } else {
-        console.error('게시글 목록 데이터 구조가 올바르지 않습니다:', res.data)
+        // console.error('게시글 목록 데이터 구조가 올바르지 않습니다:', res.data)
         return []
       }
     } catch (error) {
-      console.error('게시글 목록 조회 실패:', error)
+      // console.error('게시글 목록 조회 실패:', error)
       return []
     }
   },
@@ -118,7 +118,7 @@ export const postService = {
     const res = await instance.get<ApiResponse<PostListResponse>>('/v1/questions/popular', {
       params: { page, size }
     });
-    console.log('Popular posts response:', res);
+    // console.log('Popular posts response:', res);
     return res.data.data.posts;
   }
 } 

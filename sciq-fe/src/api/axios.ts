@@ -31,12 +31,12 @@ instance.interceptors.request.use(
     
     // 개발 환경에서만 로깅
     if (import.meta.env.DEV) {
-      console.log('=== 요청 상세 정보 ===');
-      console.log('전체 URL:', `${baseURL}${config.url}`);
-      console.log('요청 메서드:', config.method?.toUpperCase());
-      console.log('요청 헤더:', JSON.stringify(config.headers, null, 2));
-      console.log('요청 데이터:', JSON.stringify(config.data, null, 2));
-      console.log('==================');
+      // console.log('=== 요청 상세 정보 ===');
+      // console.log('전체 URL:', `${baseURL}${config.url}`);
+      // console.log('요청 메서드:', config.method?.toUpperCase());
+      // console.log('요청 헤더:', JSON.stringify(config.headers, null, 2));
+      // console.log('요청 데이터:', JSON.stringify(config.data, null, 2));
+      // console.log('==================');
     }
     
     return config;
@@ -57,28 +57,28 @@ instance.interceptors.response.use(
   (response: AxiosResponse) => {
     // 개발 환경에서만 로깅
     if (import.meta.env.DEV) {
-      console.log('=== 응답 상세 정보 ===');
-      console.log('응답 상태:', response.status);
-      console.log('응답 URL:', response.config.url);
-      console.log('응답 데이터:', JSON.stringify(response.data, null, 2));
-      console.log('==================');
+      // console.log('=== 응답 상세 정보 ===');
+      // console.log('응답 상태:', response.status);
+      // console.log('응답 URL:', response.config.url);
+      // console.log('응답 데이터:', JSON.stringify(response.data, null, 2));
+      // console.log('==================');
     }
     return response;
   },
   (error: AxiosError) => {
     // 개발 환경에서만 상세 로깅
     if (import.meta.env.DEV) {
-      console.error('=== 응답 에러 상세 정보 ===');
-      console.error('에러 메시지:', error.message);
-      console.error('에러 코드:', error.code);
-      if (error.response) {
-        console.error('에러 상태:', error.response.status);
-        console.error('에러 데이터:', JSON.stringify(error.response.data, null, 2));
-        console.error('에러 헤더:', JSON.stringify(error.response.headers, null, 2));
-      } else if (error.request) {
-        console.error('요청은 성공했으나 응답이 없음:', error.request);
-      }
-      console.error('==================');
+      // console.error('=== 응답 에러 상세 정보 ===');
+      // console.error('에러 메시지:', error.message);
+      // console.error('에러 코드:', error.code);
+      // if (error.response) {
+      //   console.error('에러 상태:', error.response.status);
+      //   console.error('에러 데이터:', JSON.stringify(error.response.data, null, 2));
+      //   console.error('에러 헤더:', JSON.stringify(error.response.headers, null, 2));
+      // } else if (error.request) {
+      //   console.error('요청은 성공했으나 응답이 없음:', error.request);
+      // }
+      // console.error('==================');
     }
     
     if (error.response?.status === 401) {
