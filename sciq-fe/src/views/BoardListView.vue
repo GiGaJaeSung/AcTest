@@ -41,7 +41,7 @@ const fetchPosts = async () => {
   isLoading.value = true
   try {
     const response = await postService.getPosts()
-    // console.log('게시글 목록:', response)
+    console.log('게시글 목록:', response)
     if (response && Array.isArray(response)) {
       if (searchQuery.value.trim()) {
         const query = searchQuery.value.toLowerCase().trim()
@@ -60,11 +60,11 @@ const fetchPosts = async () => {
         posts.value.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
       }
     } else {
-      // console.error('게시글 목록 데이터 형식이 올바르지 않습니다:', response)
+      console.error('게시글 목록 데이터 형식이 올바르지 않습니다:', response)
       posts.value = []
     }
   } catch (error) {
-    // console.error('게시글 목록 조회 실패:', error)
+    console.error('게시글 목록 조회 실패:', error)
     posts.value = []
   } finally {
     isLoading.value = false

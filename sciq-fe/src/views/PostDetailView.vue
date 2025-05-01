@@ -20,8 +20,8 @@ const fetchPost = async () => {
     post.value = await postService.getPost(postId)
     comments.value = await postService.getComments(postId)
   } catch (e) {
-    // console.error('Error fetching post:', e)
-    router.push('/board')
+    error.value = '게시글을 불러오는데 실패했습니다.'
+    console.error('Error fetching post:', e)
   } finally {
     loading.value = false
   }
@@ -35,7 +35,7 @@ const handleCommentSubmit = async (commentData: { content: string }) => {
     })
     comments.value.push(newComment)
   } catch (e) {
-    // console.error('Error creating comment:', e)
+    console.error('Error creating comment:', e)
     alert('댓글 작성에 실패했습니다.')
   }
 }

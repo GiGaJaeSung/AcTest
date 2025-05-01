@@ -123,7 +123,7 @@ const handleSubmit = async () => {
     } else {
       error.value = '프로필 수정에 실패했습니다. 다시 시도해주세요.';
     }
-    // console.error('프로필 수정 실패:', e);
+    console.error('프로필 수정 실패:', e);
   } finally {
     isSubmitting.value = false;
   }
@@ -143,8 +143,7 @@ onMounted(async () => {
       };
     }
   } catch (e) {
-    // console.error('사용자 정보 로드 실패:', e);
-    alert('사용자 정보를 불러오는데 실패했습니다.');
+    console.error('사용자 정보 로드 실패:', e);
     error.value = '사용자 정보를 불러오는데 실패했습니다.';
   } finally {
     isLoading.value = false;

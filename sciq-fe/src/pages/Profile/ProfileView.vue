@@ -143,8 +143,7 @@ const fetchRecommendedQuestions = async () => {
     const questions = await questionService.getRecommendedQuestionsByUser();
     recommendedQuestions.value = questions;
   } catch (error) {
-    // console.error('좋아요한 게시글 조회 실패:', error);
-    recommendedQuestions.value = [];
+    console.error('좋아요한 게시글 조회 실패:', error);
   } finally {
     recommendedQuestionsLoading.value = false;
   }
@@ -157,8 +156,8 @@ onMounted(async () => {
     user.value = userInfo;
     await fetchRecommendedQuestions();
   } catch (e) {
-    // console.error('사용자 정보 로드 실패:', e);
-    alert('사용자 정보를 불러오는데 실패했습니다.');
+    console.error('사용자 정보 로드 실패:', e);
+    error.value = '사용자 정보를 불러오는데 실패했습니다.';
   } finally {
     isLoading.value = false;
   }

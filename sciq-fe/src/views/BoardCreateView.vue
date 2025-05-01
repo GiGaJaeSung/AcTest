@@ -83,7 +83,7 @@ const handleSubmit = async () => {
     })
     router.push('/board')
   } catch (error) {
-    // console.error('게시글 작성 실패:', error)
+    console.error('게시글 작성 실패:', error)
     alert('게시글 작성에 실패했습니다.')
   } finally {
     isLoading.value = false

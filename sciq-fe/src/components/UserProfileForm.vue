@@ -38,27 +38,36 @@ const error = ref('');
 
 const loadUserInfo = async () => {
   try {
+    loading.value = true;
+    error.value = '';
     // console.log('사용자 정보 로딩 시작');
-    const userInfo = await getUserInfo();
+    
+    const response = await getUserInfo();
+    // console.log('사용자 정보 로딩 완료:', response);
+    
     profile.value = {
-      name: userInfo.name,
-      gender: userInfo.gender,
+      name: response.name,
+      gender: response.gender,
     };
-    // console.log('사용자 정보 로딩 완료:', userInfo);
-  } catch (err) {
-    // console.error('사용자 정보 로딩 실패:', err);
-    alert('사용자 정보를 불러오는데 실패했습니다.');
+  } catch (error) {
+    // console.error('사용자 정보 로딩 실패:', error);
+    error.value = '사용자 정보를 불러오는데 실패했습니다.';
+  } finally {
+    loading.value = false;
   }
 };
 
 const handleSubmit = async () => {
   try {
+    loading.value = true;
+    error.value = '';
     await updateUserInfo(profile.value);
     // console.log('프로필 업데이트 성공');
-    emit('update-success');
   } catch (err) {
     // console.error('프로필 업데이트 실패:', err);
-    alert('프로필 업데이트에 실패했습니다.');
+    error.value = '프로필 업데이트에 실패했습니다.';
+  } finally {
+    loading.value = false;
   }
 };
 

@@ -199,29 +199,38 @@ const validateForm = () => {
 }
 
 const handleSubmit = async () => {
-  // console.log('회원가입 폼 제출 시작');
-  const { valid } = await form.value.validate()
-  
-  if (!valid) {
-    // console.log('폼 검증 실패');
-    return
+  console.log('회원가입 폼 제출 시작');
+  if (!validateForm()) {
+    console.log('폼 검증 실패');
+    return;
   }
-  
+
   try {
-    // console.log('회원가입 요청 데이터:', form);
+    console.log('회원가입 요청 데이터:', form);
     const response = await authStore.register(form)
-    // console.log('회원가입 성공, 응답:', response);
+    console.log('회원가입 성공, 응답:', response);
     
-    // 토큰 저장 확인
-    // console.log('로컬 스토리지에 저장된 토큰:', {
-    //   accessToken: localStorage.getItem('accessToken'),
-    //   refreshToken: localStorage.getItem('refreshToken')
-    // });
+    // 토큰 저장
+    localStorage.setItem('accessToken', response.accessToken)
+    localStorage.setItem('refreshToken', response.refreshToken)
+    localStorage.setItem('tokenExpiresIn', response.accessTokenExpiresIn.toString())
+    console.log('로컬 스토리지에 저장된 토큰:', {
+      accessToken: localStorage.getItem('accessToken'),
+      refreshToken: localStorage.getItem('refreshToken'),
+      expiresIn: localStorage.getItem('tokenExpiresIn')
+    });
     
-    router.push('/')
-  } catch (error) {
-    // console.error('회원가입 실패:', error)
-    alert('회원가입에 실패했습니다.')
+    alert('회원가입이 완료되었습니다.')
+    router.push('/login')
+  } catch (error: any) {
+    console.error('회원가입 실패:', error)
+    if (error.response?.data?.message) {
+      alert(error.response.data.message)
+    } else if (error.message) {
+      alert(error.message)
+    } else {
+      alert('회원가입 중 오류가 발생했습니다.')
+    }
   }
 }
 </script>

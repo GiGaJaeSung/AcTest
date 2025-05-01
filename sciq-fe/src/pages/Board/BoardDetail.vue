@@ -194,7 +194,7 @@ const fetchQuestion = async () => {
     const commentsResponse = await questionService.getComments(Number(route.params.id));
     question.value.comments = commentsResponse.data || [];
   } catch (error: any) {
-    // console.error('게시글 조회 실패:', error);
+    console.error('게시글 조회 실패:', error);
     if (error.response?.data?.message) {
       const errorMessage = error.response.data.message;
       // API 에러 메시지 한국어 변환
@@ -223,31 +223,11 @@ const fetchQuestion = async () => {
 
 const checkRecommendStatus = async (questionId: number) => {
   try {
-    if (!isAuthenticated.value || !question.value) return;
-    
     // console.log('추천 상태 확인 시작:', questionId);
-    const response = await questionService.checkRecommendStatus(questionId);
-    
-    if (response.success) {
-      // 응답 구조에 따라 추천 상태 설정
-      // response.data가 { recommended: boolean } 형태인 경우
-      if (typeof response.data === 'object' && response.data !== null && 'recommended' in response.data) {
-        question.value.recommended = response.data.recommended;
-      } 
-      // response.data가 직접 boolean인 경우
-      else if (typeof response.data === 'boolean') {
-        question.value.recommended = response.data;
-      }
-      // console.log('추천 상태 확인 결과:', question.value.recommended);
-    } else {
-      // console.warn('추천 상태 확인 실패:', response.message);
-    }
+    const response = await questionService.checkRecommendStatus(questionId)
+    question.value.recommended = response.data
   } catch (error) {
-    // console.error('추천 상태 확인 실패:', error);
-    // 오류가 발생해도 UI에는 영향을 주지 않기 위해 기본값으로 설정
-    if (question.value) {
-      question.value.recommended = false;
-    }
+    // console.error('추천 상태 확인 실패:', error)
   }
 };
 
@@ -285,7 +265,7 @@ const handleLike = async () => {
     await questionService.recommendQuestion(questionId);
     
   } catch (error: any) {
-    // console.error('추천 처리 중 오류 발생:', error);
+    console.error('추천 처리 중 오류 발생:', error);
     
     // 오류 발생 시 다시 토글하여 원래 상태로 되돌림
     toggleLikeStatus();
@@ -346,22 +326,24 @@ const formatDiscipline = (discipline: ScienceDisciplineType) => {
   return disciplineMap[discipline]
 }
 
-const getTokenData = () => {
-  const token = localStorage.getItem('accessToken');
+const getCurrentUser = () => {
+  const token = localStorage.getItem('accessToken')
   if (!token) {
-    // console.log('No token found in localStorage');
-    return null;
+    // console.log('No token found in localStorage')
+    return null
   }
-  
+
   try {
-    const decoded = JSON.parse(atob(token.split('.')[1]));
-    // console.log('Decoded JWT token:', decoded);
-    return decoded;
-  } catch (err) {
-    // console.error('토큰 디코딩 실패:', err);
-    return null;
+    const base64Url = token.split('.')[1]
+    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+    const decoded = JSON.parse(atob(base64))
+    // console.log('Decoded JWT token:', decoded) // 디코딩된 전체 토큰 데이터 출력
+    return decoded
+  } catch (error) {
+    // console.error('Token decode error:', error)
+    return null
   }
-};
+}
 
 const submitComment = async () => {
   if (!commentText.value.trim() || !question.value) return
@@ -385,8 +367,27 @@ const submitComment = async () => {
       commentText.value = ''
     }
   } catch (error: any) {
-    // console.error('댓글 작성 실패:', error)
-    alert('댓글 작성에 실패했습니다.')
+    console.error('댓글 작성 실패:', error)
+    if (error.response?.data?.message) {
+      const errorMessage = error.response.data.message;
+      if (errorMessage.includes('Invalid credentials')) {
+        alert('로그인 정보가 올바르지 않습니다.');
+      } else if (errorMessage.includes('Unauthorized')) {
+        alert('로그인이 필요한 기능입니다.');
+      } else if (errorMessage.includes('Forbidden')) {
+        alert('댓글 작성 권한이 없습니다.');
+      } else if (errorMessage.includes('Not Found')) {
+        alert('게시글이 존재하지 않습니다.');
+      } else {
+        alert(errorMessage);
+      }
+    } else if (error.response?.status === 400) {
+      alert('댓글 내용을 입력해주세요.');
+    } else if (error.response?.status === 403) {
+      alert('댓글 작성 권한이 없습니다.');
+    } else {
+      alert('댓글 작성에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    }
   }
 }
 
@@ -439,8 +440,27 @@ const saveEdit = async () => {
       isEditing.value = false;
     }
   } catch (error: any) {
-    // console.error('게시글 수정 실패:', error);
-    alert('게시글 수정에 실패했습니다.');
+    console.error('게시글 수정 실패:', error);
+    if (error.response?.data?.message) {
+      const errorMessage = error.response.data.message;
+      if (errorMessage.includes('Invalid credentials')) {
+        alert('로그인 정보가 올바르지 않습니다.');
+      } else if (errorMessage.includes('Unauthorized')) {
+        alert('로그인이 필요한 기능입니다.');
+      } else if (errorMessage.includes('Forbidden')) {
+        alert('게시글 수정 권한이 없습니다.');
+      } else if (errorMessage.includes('Not Found')) {
+        alert('게시글이 존재하지 않습니다.');
+      } else {
+        alert(errorMessage);
+      }
+    } else if (error.response?.status === 403) {
+      alert('게시글 수정 권한이 없습니다.');
+    } else if (error.response?.status === 404) {
+      alert('게시글이 존재하지 않습니다.');
+    } else {
+      alert('게시글 수정에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    }
   }
 }
 
@@ -472,8 +492,27 @@ const updateComment = async (commentId: number) => {
     }
     cancelEditComment()
   } catch (error: any) {
-    // console.error('댓글 수정 실패:', error)
-    alert('댓글 수정에 실패했습니다.')
+    console.error('댓글 수정 실패:', error)
+    if (error.response?.data?.message) {
+      const errorMessage = error.response.data.message;
+      if (errorMessage.includes('Invalid credentials')) {
+        alert('로그인 정보가 올바르지 않습니다.');
+      } else if (errorMessage.includes('Unauthorized')) {
+        alert('로그인이 필요한 기능입니다.');
+      } else if (errorMessage.includes('Forbidden')) {
+        alert('댓글 수정 권한이 없습니다.');
+      } else if (errorMessage.includes('Not Found')) {
+        alert('댓글이 존재하지 않습니다.');
+      } else {
+        alert(errorMessage);
+      }
+    } else if (error.response?.status === 403) {
+      alert('댓글 수정 권한이 없습니다.');
+    } else if (error.response?.status === 404) {
+      alert('댓글이 존재하지 않습니다.');
+    } else {
+      alert('댓글 수정에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    }
   }
 }
 
@@ -486,8 +525,27 @@ const deleteComment = async (commentId: number) => {
       question.value.comments = question.value.comments.filter(c => c.id !== commentId)
     }
   } catch (error: any) {
-    // console.error('댓글 삭제 실패:', error)
-    alert('댓글 삭제에 실패했습니다.')
+    console.error('댓글 삭제 실패:', error)
+    if (error.response?.data?.message) {
+      const errorMessage = error.response.data.message;
+      if (errorMessage.includes('Invalid credentials')) {
+        alert('로그인 정보가 올바르지 않습니다.');
+      } else if (errorMessage.includes('Unauthorized')) {
+        alert('로그인이 필요한 기능입니다.');
+      } else if (errorMessage.includes('Forbidden')) {
+        alert('댓글 삭제 권한이 없습니다.');
+      } else if (errorMessage.includes('Not Found')) {
+        alert('댓글이 존재하지 않습니다.');
+      } else {
+        alert(errorMessage);
+      }
+    } else if (error.response?.status === 403) {
+      alert('댓글 삭제 권한이 없습니다.');
+    } else if (error.response?.status === 404) {
+      alert('댓글이 존재하지 않습니다.');
+    } else {
+      alert('댓글 삭제에 실패했습니다. 잠시 후 다시 시도해주세요.');
+    }
   }
 }
 

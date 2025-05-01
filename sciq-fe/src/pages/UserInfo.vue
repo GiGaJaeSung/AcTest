@@ -21,22 +21,16 @@ const router = useRouter()
 const authStore = useAuthStore()
 
 const user = ref<User | null>(null)
+const errorMessage = ref<string | null>(null)
 
-const loadUserInfo = async () => {
+onMounted(async () => {
   try {
-    // console.log('사용자 정보 로딩 시작');
     const userInfo = await authStore.getCurrentUser()
     user.value = userInfo
-    // console.log('사용자 정보 로딩 완료:', userInfo);
-  } catch (err) {
-    // console.error('사용자 정보 로딩 실패:', err);
-    alert('사용자 정보를 불러오는데 실패했습니다.')
+  } catch (error) {
+    // console.error('Failed to fetch user info:', error)
+    errorMessage.value = '사용자 정보를 불러오는데 실패했습니다.'
   }
-}
-
-onMounted(() => {
-  // console.log('UserInfo 마운트됨');
-  loadUserInfo()
 })
 
 const goToProfile = () => {

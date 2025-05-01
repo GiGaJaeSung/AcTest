@@ -15,8 +15,8 @@ const handleSubmit = async (postData: any) => {
     await postService.createPost(postData)
     router.push('/posts')
   } catch (e) {
-    // console.error('Error creating post:', e)
-    alert('게시글 작성에 실패했습니다.')
+    error.value = '게시글 작성에 실패했습니다.'
+    console.error('Error creating post:', e)
   } finally {
     loading.value = false
   }

@@ -48,8 +48,7 @@ const fetchQuestion = async () => {
     const data = await response.json();
     question.value = data.data;
   } catch (error) {
-    // console.error('게시글 불러오기 실패:', error);
-    router.push('/board');
+    console.error('게시글 불러오기 실패:', error);
   }
 };
 
@@ -76,8 +75,7 @@ const deleteQuestion = async () => {
     });
     router.push('/questions');
   } catch (error) {
-    // console.error('게시글 삭제 실패:', error);
-    alert('게시글 삭제에 실패했습니다.');
+    console.error('게시글 삭제 실패:', error);
   }
 };
 
